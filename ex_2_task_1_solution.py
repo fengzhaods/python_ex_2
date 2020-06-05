@@ -1,33 +1,32 @@
 def is_valid_email_address(s):
-    ''' validates email address in string s, returns tuple of bool and message string'''
     
     # How many @s ?
     num_at = s.count("@")
     if num_at != 1: return 1, "Must have exactly one @!"
 
-    # How many chars pre @ i.e. in A ? All alfanum?
+    # How many chars pre @ i.e. in username ? All alfanum?
     l = s.split("@")
-    A, post = l[0], l[1]  # A, post = l would also work but could be confusing ...
-    if len(A) < 3 or len(A) > 16: 
-        return 2, "pre @ part must contain 3 - 16 alfanum chars"
-    elif A.isalnum() == False:
-        return 3, "pre @ part must only contain alfanum chars"
+    username, domainname = l[0], l[1] 
+    if len(username) not in range(3, 17): 
+        return 2, "username must contain 3 - 16 alfanum chars"
+    elif username.isalnum() == False:
+        return 3, "username must only contain alfanum chars"
 
-    # how many dots in post?
-    if post.count(".") != 1:
-        return 4, "post @ part must have exactly one dot!"
+    # how many dots in domain name?
+    if domainname.count(".") != 1:
+        return 4, "domain name must have exactly one dot!"
     
-    # split into B and C 
-    B, C = post.split(".")
+    # split domain name into server and extension 
+    server, extension = domainname.split(".")
 
-    # how many chars in B? All alfanum?
-    if len(B) < 2 or len(B) > 8:
-        return 5, "part after @ and before . must contain 2 - 8 alfanum chars"
-    elif B.isalnum() == False:
-        return 6, "part after @ and before . must only contain alfanum chars"
+    # how many chars in server? All alfanum?
+    if len(server) not in range(2, 9):
+        return 5, "server part (after @ and before .) must contain 2 - 8 alfanum chars"
+    elif server.isalnum() == False:
+        return 6, "server part (after @ and before .) must only contain alfanum chars"
 
-    # is C legit?
-    if C not in ["com", "edu", "org", "gov"]: 
-        return 7, "past-dot part invalid, must be from: com, edu, org, gov"
+    # is extension legit?
+    if extension not in ["com", "edu", "org", "gov"]: 
+        return 7, "extention invalid, must be from: com, edu, org, gov"
 
     return None, "Seems legit"
